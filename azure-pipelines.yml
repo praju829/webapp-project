@@ -25,4 +25,20 @@ steps:
     serviceConnectionEndpoint: 'snyk'
     testType: 'app'
     monitorWhen: 'always'
-    failOnIssues: true
+    failOnIssues: true 
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'tomcat-devsecops-connection'
+    sourceFolder: '$(Agent.BuildDirectory)/'
+    contents: '**/*.war'
+    targetFolder: '/var/lib/tomcat9/weapps/'
+    readyTimeout: '20000'
+    flattenFolders: true
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'tomcat-devsecops-connection'
+    runOptions: 'inline'
+    inline: |
+      /var/lib/tomcat9/conf/shutdown.sh
+      /var/lib/tomcat9/conf/startup.sh
+    readyTimeout: '20000'
