@@ -26,19 +26,14 @@ steps:
     testType: 'app'
     monitorWhen: 'always'
     failOnIssues: true 
-- task: CopyFilesOverSSH@0
+- task: Maven@4
   inputs:
-    sshEndpoint: 'tomcat-devsecops-connection'
-    sourceFolder: '$(Agent.BuildDirectory)/'
-    contents: '**/*.war'
-    targetFolder: '/var/lib/tomcat9/weapps/'
-    readyTimeout: '20000'
-    flattenFolders: true
-- task: SSH@0
-  inputs:
-    sshEndpoint: 'tomcat-devsecops-connection'
-    runOptions: 'inline'
-    inline: |
-      /var/lib/tomcat9/conf/shutdown.sh
-      /var/lib/tomcat9/conf/startup.sh
-    readyTimeout: '20000'
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
