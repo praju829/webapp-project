@@ -30,6 +30,7 @@ steps:
   inputs:
     SonarQube: 'sonartoken'
     scannerMode: 'Other'
+- task: SonarQubeAnalyze@5
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
