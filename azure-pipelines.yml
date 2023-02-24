@@ -54,3 +54,7 @@ steps:
     contents: '**/*.war'
     targetFolder: '/var/lib/tomcat9/webapps'
     readyTimeout: '20000'
+- task: owaspzap@1
+  inputs:
+    provideCustomContext: true
+    contextPath: '/webapp-project'
