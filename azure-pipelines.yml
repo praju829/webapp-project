@@ -20,6 +20,11 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+- task: dependency-check-build-task@6
+  inputs:
+    projectName: 'webapp-project'
+    scanPath: '/home/vsts/work/1/s/target'
+    format: 'HTML'
 - task: SnykSecurityScan@1
   inputs:
     serviceConnectionEndpoint: 'snyk'
