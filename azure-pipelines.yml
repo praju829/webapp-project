@@ -61,3 +61,8 @@ steps:
     url: 'http://43.205.113.47:8080/webapp-project/'
     provideCustomContext: true
     contextPath: '/webapp-project'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'OWASP ZAP Report'
+    publishLocation: 'Container'
