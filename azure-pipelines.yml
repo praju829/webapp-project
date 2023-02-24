@@ -26,6 +26,11 @@ steps:
     testType: 'app'
     monitorWhen: 'always'
     failOnIssues: true 
+-
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'sonartoken'
+    scannerMode: 'Other'
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
