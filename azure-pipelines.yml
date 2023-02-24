@@ -56,5 +56,7 @@ steps:
     readyTimeout: '20000'
 - task: owaspzap@1
   inputs:
+    scantype: 'targetedScan'
+    url: 'http://43.205.113.47:8080/webapp-project/'
     provideCustomContext: true
     contextPath: '/webapp-project'
