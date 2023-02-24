@@ -34,7 +34,19 @@ steps:
 - task: SonarQubePrepare@5
   inputs:
     SonarQube: 'sonartoken'
-    scannerMode: 'Other'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'praju829_webapp-project'
+    cliProjectName: 'webapp-project'
+    cliSources: '.'
+    extraProperties: |
+      # Additional properties that will be passed to the scanner, 
+      # Put one key=value per line, example:
+      # sonar.exclusions=**/*.bin
+      sonar.java.binaries.
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
 - task: SonarQubeAnalyze@5
 - task: Maven@4
   inputs:
