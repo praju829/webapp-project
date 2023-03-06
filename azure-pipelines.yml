@@ -63,7 +63,7 @@ steps:
     sonarQubeRunAnalysis: false
 - task: CopyFilesOverSSH@0
   inputs:
-    sshEndpoint: 'tomcat-devsecops-connection'
+    sshEndpoint: 'tomcat-devsecops-conn'
     sourceFolder: '/home/vsts/work/1/s/target'
     contents: '**/*.war'
     targetFolder: '/var/lib/tomcat9/webapps'
