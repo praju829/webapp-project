@@ -72,7 +72,7 @@ steps:
   inputs:
     threshold: '300'
     scantype: 'targetedScan'
-    url: 'http://3.109.32.149:8080//webapp-project/'
+    url: 'http://65.2.33.41:8080///webapp-project/'
     provideCustomContext: true
     contextPath: '/webapp-project'
 - task: PublishBuildArtifacts@1
