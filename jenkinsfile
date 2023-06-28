@@ -3,7 +3,7 @@ pipeline {
   stages { 
    stage ('Check-Git-Secrets') {
       steps {
-        sh 'docker run gesellix/trufflehog --json https://github.com/praju829/webapp-project.git > trufflehog'
+        sh 'sudo docker run gesellix/trufflehog --json https://github.com/praju829/webapp-project.git > trufflehog'
         sh 'cat trufflehog'
       }
     }
@@ -40,7 +40,7 @@ pipeline {
    stage ('DAST') {
       steps {
        sshagent(['zap']) {
-         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@44.202.130.42 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://3.111.171.176:8080/webapp-project/" || true'
+         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@44.202.130.42 "sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://3.111.171.176:8080/webapp-project/" || true'
         }
       }
     }
