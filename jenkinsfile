@@ -1,6 +1,13 @@
 pipeline {
   agent any 
   stages { 
+   stage ('Check-Git-Secrets') {
+      steps {
+        sh 'rm trufflehog || true'
+        sh 'docker run gesellix/trufflehog --json https://github.com/praju829/webapp-project.git > trufflehog'
+        sh 'cat trufflehog'
+      }
+    }
    stage('Test') {
       steps {
         echo 'Testing...'
@@ -10,7 +17,7 @@ pipeline {
         )
       }
     }
-    stage ('SAST') {
+   stage ('SAST') {
       steps {
         withSonarQubeEnv('SonarQube') {
           sh 'mvn package'
@@ -19,22 +26,22 @@ pipeline {
       }
    }
    stage ('Build') {
-     steps {
-         sh 'mvn clean package'
+      steps {
+        sh 'mvn clean package'
        }
    }
    stage ('Deploy-To-Tomcat') {
-     steps {
+      steps {
        sshagent(['deploy_user']) {
-         sh 'scp  /var/lib/jenkins/workspace/cicd/target/webapp-project.war tomcat@:3.108.223.2/apache-tomcat9:/etc/webapps/webapp-project.war'
+         sh 'scp -o StrictHostKeyChecking=no target/*.war ubuntu@3.111.171.176:/var/lib/tomcat9/webapps/webapp-project.war'
               }      
            }       
     }
     
    stage ('DAST') {
-     steps {
+      steps {
        sshagent(['zap']) {
-         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@34.238.83.145 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://3.108.223.2:8080/webapp-project/" || true'
+         sh 'ssh -o  StrictHostKeyChecking=no ubuntu@44.202.130.42 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://3.111.171.176:8080/webapp-project/" || true'
         }
       }
     }
